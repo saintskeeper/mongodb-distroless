@@ -1,5 +1,6 @@
 # MongoDB Server Distroless Image
 ![Build Image](https://github.com/tran4774/mongodb-distroless/actions/workflows/docker-image.yml/badge.svg)
+![Snyk Container](https://github.com/tran4774/mongodb-distroless/actions/workflows/snyk-container.yml/badge.svg)
 
 Docker images that combines Google Distroless Base Image + MongoDB Server.
 
