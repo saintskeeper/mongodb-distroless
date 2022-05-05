@@ -1,6 +1,7 @@
 # MongoDB Server Distroless Image
+![Build Image](https://github.com/tran4774/mongodb-distroless/actions/workflows/docker-image.yml/badge.svg)
 
-Custom Docker images that combines Google Distroless Base Image + MongoDB Server.
+Docker images that combines Google Distroless Base Image + MongoDB Server.
 
 # Maintainer
 
