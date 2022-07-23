@@ -10,20 +10,25 @@ RUN \
   && apt-key add /home/key.asc \
   && echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/${mongo_version} main" | tee /etc/apt/sources.list.d/mongodb-org-${mongo_version}.list \
   && apt-get update \
-  && apt-get install mongodb-org-server -y \
+  && apt-get install mongodb-org-server mongodb-org-shell -y \
   && apt-get purge -y gnupg
 RUN \
   chmod +x /home/resolvingdeps.sh \
   && /home/resolvingdeps.sh -f /usr/bin/mongod -d /home/deps \
+  && /home/resolvingdeps.sh -f /usr/bin/mongo -d /home/deps \
   && apt-get autoremove -y \
   && apt-get autoclean --dry-run \
   && apt-get clean --dry-run
 
-
+FROM docker.io/library/busybox:stable AS shell
 FROM gcr.io/distroless/static
+COPY --from=shell /bin/ /bin/
 COPY --from=mongodb /etc/mongod.conf /etc/
-COPY --from=mongodb /usr/bin/mongod /usr/bin/
-COPY --from=mongodb /etc/apt/sources.list.d /data/db
+COPY --from=mongodb /usr/bin/mongod /usr/bin/mongo /usr/bin/
+COPY --from=mongodb /home/key.asc /data/db/
 COPY --from=mongodb /home/deps/ /
+COPY entrypoint.sh script.js /home/
+WORKDIR /home
+RUN chmod +x entrypoint.sh
 EXPOSE 27017
-ENTRYPOINT [ "mongod", "--bind_ip", "0.0.0.0" ]
+ENTRYPOINT [ "/home/entrypoint.sh" ]
