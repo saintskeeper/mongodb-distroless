@@ -15,7 +15,7 @@ RUN \
 RUN \
   chmod +x /home/resolvingdeps.sh \
   && /home/resolvingdeps.sh -f /usr/bin/mongod -d /home/deps \
-  && /home/resolvingdeps.sh -f /usr/bin/mongo -d /home/deps \
+  && /home/resolvingdeps.sh -f /usr/bin/mongosh -d /home/deps \
   && apt-get autoremove -y \
   && apt-get autoclean --dry-run \
   && apt-get clean --dry-run
@@ -30,7 +30,7 @@ FROM docker.io/library/busybox:stable AS shell
 FROM gcr.io/distroless/static:latest
 COPY --from=shell /bin/ /bin/
 COPY --from=mongodb /etc/mongod.conf /etc/
-COPY --from=mongodb /usr/bin/mongod /usr/bin/mongo /usr/bin/
+COPY --from=mongodb /usr/bin/mongod /usr/bin/mongosh /usr/bin/
 COPY --from=mongodb /home/key.asc /data/db/
 COPY --from=mongodb /home/deps/ /
 COPY --from=mongodb /home/entrypoint.sh /home/
