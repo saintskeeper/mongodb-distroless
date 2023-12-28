@@ -21,15 +21,18 @@ RUN \
   && apt-get clean --dry-run
 
 
+COPY entrypoint.sh  /home
+RUN chmod +x /home/entrypoint.sh
+
 FROM docker.io/library/busybox:stable AS shell
-RUN chmod +x entrypoint.sh
 FROM gcr.io/distroless/static:latest
 COPY --from=shell /bin/ /bin/
 COPY --from=mongodb /etc/mongod.conf /etc/
 COPY --from=mongodb /usr/bin/mongod /usr/bin/mongo /usr/bin/
 COPY --from=mongodb /home/key.asc /data/db/
 COPY --from=mongodb /home/deps/ /
-COPY entrypoint.sh script.js /home/
+COPY --from=mongodb /home/entrypoint.sh /home/
+COPY  script.js /home/
 WORKDIR /home
 
 EXPOSE 27017
