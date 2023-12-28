@@ -1,7 +1,7 @@
 FROM docker.io/bitnami/minideb:buster AS mongodb
 ARG DEBIAN_FRONTEND=noninteractive
 ARG resolvingdeps=https://github.com/tran4774/Resolving-Shared-Library/releases/download/v1.0.3/resolving.sh
-ARG mongo_version=5.0
+ARG mongo_version=7.0
 ARG mongo_pgp=https://www.mongodb.org/static/pgp/server-${mongo_version}.asc
 ADD ${resolvingdeps} /home/resolvingdeps.sh
 ADD ${mongo_pgp} /home/key.asc
