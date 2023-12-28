@@ -20,8 +20,10 @@ RUN \
   && apt-get autoclean --dry-run \
   && apt-get clean --dry-run
 
+
 FROM docker.io/library/busybox:stable AS shell
-FROM gcr.io/distroless/static
+RUN chmod +x entrypoint.sh
+FROM gcr.io/distroless/static:latest
 COPY --from=shell /bin/ /bin/
 COPY --from=mongodb /etc/mongod.conf /etc/
 COPY --from=mongodb /usr/bin/mongod /usr/bin/mongo /usr/bin/
@@ -29,6 +31,6 @@ COPY --from=mongodb /home/key.asc /data/db/
 COPY --from=mongodb /home/deps/ /
 COPY entrypoint.sh script.js /home/
 WORKDIR /home
-RUN chmod +x entrypoint.sh
+
 EXPOSE 27017
 ENTRYPOINT [ "/home/entrypoint.sh" ]
