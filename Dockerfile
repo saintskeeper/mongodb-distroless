@@ -21,7 +21,7 @@ RUN \
   && apt-get clean --dry-run
 
 
-RUN which mongo
+RUN ls /usr/local/bin | grep mongo
 
 COPY entrypoint.sh  /home
 RUN chmod +x /home/entrypoint.sh
