@@ -1,4 +1,4 @@
-FROM docker.io/bitnami/minideb:buster AS mongodb
+FROM docker.io/bitnami/minideb:bullseye AS mongodb
 ARG DEBIAN_FRONTEND=noninteractive
 ARG resolvingdeps=https://github.com/tran4774/Resolving-Shared-Library/releases/download/v1.0.3/resolving.sh
 ARG mongo_version=7.0
