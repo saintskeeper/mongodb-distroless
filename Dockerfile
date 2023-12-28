@@ -8,7 +8,7 @@ ADD ${mongo_pgp} /home/key.asc
 RUN \
   apt-get update && apt-get install gnupg -y \
   && apt-key add /home/key.asc \
-  && echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/${mongo_version} main" | tee /etc/apt/sources.list.d/mongodb-org-${mongo_version}.list \
+  && echo "deb http://repo.mongodb.org/apt/debian bullseye/mongodb-org/${mongo_version} main" | tee /etc/apt/sources.list.d/mongodb-org-${mongo_version}.list \
   && apt-get update \
   && apt-get install mongodb-org-server mongodb-org-shell -y \
   && apt-get purge -y gnupg
