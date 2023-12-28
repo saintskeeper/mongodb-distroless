@@ -1,4 +1,4 @@
-FROM docker.io/bitnami/minideb:bullseye AS mongodb
+FROM docker.io/bitnami/minideb:buster AS mongodb
 ARG DEBIAN_FRONTEND=noninteractive
 ARG resolvingdeps=https://github.com/tran4774/Resolving-Shared-Library/releases/download/v1.0.3/resolving.sh
 ARG mongo_version=7.0
@@ -8,9 +8,9 @@ ADD ${mongo_pgp} /home/key.asc
 RUN \
   apt-get update && apt-get install gnupg -y \
   && apt-key add /home/key.asc \
-  && echo "deb http://repo.mongodb.org/apt/debian bullseye/mongodb-org/${mongo_version} main" | tee /etc/apt/sources.list.d/mongodb-org-${mongo_version}.list \
+  && echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/${mongo_version} main" | tee /etc/apt/sources.list.d/mongodb-org-${mongo_version}.list \
   && apt-get update \
-  && apt-get install mongodb-org-server mongodb-org-shell -y \
+  && apt-get install mongodb-org mongodb-org-server mongodb-org-shell -y \
   && apt-get purge -y gnupg
 RUN \
   chmod +x /home/resolvingdeps.sh \
